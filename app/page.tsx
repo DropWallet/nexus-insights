@@ -30,6 +30,12 @@ export default function Home() {
           >
             List view
           </Link>
+          <Link
+            href="/analytics"
+            className="inline-flex items-center justify-center rounded-base font-medium bg-surface-translucent-mid border border-stroke-neutral-translucent-subdued text-neutral-strong hover:bg-surface-translucent-low px-4 py-2 text-base transition-colors focus:outline-none focus:ring-2 focus:ring-primary-moderate focus:ring-offset-2"
+          >
+            Analytics
+          </Link>
         </div>
         <div className="mt-8 p-4 bg-surface-low rounded-lg border border-stroke-neutral-translucent-weak">
           <Typography variant="title-sm" className="mb-2">

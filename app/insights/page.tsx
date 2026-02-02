@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { Typography } from '@/components/Typography'
+import { TagChip } from '@/components/TagChip'
 
 export const dynamic = 'force-dynamic'
 
@@ -60,6 +61,9 @@ export default async function InsightsPage() {
           <Link href="/board" className="text-neutral-subdued hover:text-neutral-strong text-body-sm">
             Board
           </Link>
+          <Link href="/analytics" className="text-neutral-subdued hover:text-neutral-strong text-body-sm">
+            Analytics
+          </Link>
           <Link href="/ingest" className="text-neutral-subdued hover:text-neutral-strong text-body-sm">
             Add feedback
           </Link>
@@ -95,16 +99,7 @@ export default async function InsightsPage() {
                   <div className="flex flex-wrap items-center gap-2 text-body-sm">
                     <span className="text-neutral-subdued">Theme: {themeName}</span>
                     {tags.map((tag) => (
-                      <span
-                        key={tag.name}
-                        className="px-2 py-0.5 rounded-base text-body-sm"
-                        style={{
-                          backgroundColor: `${(tag.color_code ?? '#6b7280')}20`,
-                          color: tag.color_code ?? '#6b7280',
-                        }}
-                      >
-                        {tag.name}
-                      </span>
+                      <TagChip key={tag.name} tag={tag} />
                     ))}
                     {sourceType && (
                       <span className="text-neutral-weak uppercase">{sourceType}</span>

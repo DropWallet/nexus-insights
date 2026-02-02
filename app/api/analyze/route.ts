@@ -25,10 +25,12 @@ export type ExtractedInsight = {
   suggested_tags: string[]
 }
 
+const MAX_TAGS_PER_INSIGHT = 3
+
 function buildSystemPrompt(contextBank: string, existingTagNames: string[]): string {
   const tagList = existingTagNames.length
-    ? `Existing tags (prefer these; only suggest a new tag if none fit): ${existingTagNames.join(', ')}`
-    : 'No existing tags yet. Suggest 2–4 short, lowercase tag names per insight (e.g. "ui", "error message", "slow speed").'
+    ? `Existing tags (prefer these when they fit): ${existingTagNames.join(', ')}. If there are no relevant tags, you may create a new one—but try to fit to an existing tag if possible.`
+    : 'No existing tags yet. Use short, lowercase tag names (e.g. "ui", "error message"). You may create new tags as needed; try to reuse where it makes sense.'
 
   return `You are a Product Research Assistant for Nexus Mods. Your goal is to analyze user feedback and extract atomic insights.
 
@@ -37,10 +39,16 @@ ${THEME_NAMES.filter((n) => n !== 'Uncategorised').map((n) => `- ${n}`).join('\n
 
 ${tagList}
 
-Rules:
-- Extract 1–4 distinct insights from the text. Each insight = one concise sentence.
+Extraction & density rules:
+- Atomic quality: Every insight must be a standalone nugget of information. If a sentence contains two distinct pain points (or sentiments), split them into two insights.
+- Volume: Do not feel obligated to reach a specific number. For a short comment, 1 insight is often enough. For long-form text (interviews, articles), extract as many as necessary to represent every unique sentiment expressed. If in doubt, less is more—quality over quantity.
+- Avoid redundancy: If the user repeats the same complaint multiple times, capture it once as a single, strong insight.
+- "So what?" filter: Only extract insights that are actionable for a Product Team. Ignore generic praise (e.g. "I love this site") unless it specifies what they love (e.g. "I love the new search filters").
+- Contextual accuracy: Use the Context Bank below to distinguish technical tiers (e.g. Premium vs Supporter) and tool-specific terminology (e.g. "Deployment" in Vortex vs "Installation" in Wabbajack). Reference it for Nexus/modding terms (Vortex, Collections, ESP, load order, etc.).
+
+Other rules:
 - Assign the single most relevant theme to each insight.
-- Use the context bank below for Nexus/modding terminology (Vortex, Collections, ESP, load order, etc.).
+- Tags: Assign at least one tag (and at most ${MAX_TAGS_PER_INSIGHT}) to every insight. Every insight should have at least one tag that helps categorise it. Maximum ${MAX_TAGS_PER_INSIGHT} tags per insight. If there are no relevant tags, you may create a new one—but try to fit to an existing tag if possible. Reuse the same tag for multiple insights when it fits.
 - Output only valid JSON: an array of objects with keys "content", "suggested_theme", "suggested_tags". No markdown, no explanation.
 
 Context bank:
@@ -135,6 +143,16 @@ export async function POST(request: NextRequest) {
     if (!Array.isArray(extracted) || extracted.length === 0) {
       return NextResponse.json({ count: 0, insightIds: [] })
     }
+
+    // Post-process: max 2 tags per insight, normalise (lowercase, trim)
+    const normaliseTag = (t: string) => String(t).trim().toLowerCase()
+    extracted = extracted.map((item) => ({
+      ...item,
+      suggested_tags: [...new Set((item.suggested_tags ?? []).map(normaliseTag).filter(Boolean))].slice(
+        0,
+        MAX_TAGS_PER_INSIGHT
+      ),
+    }))
 
     const themeByName = new Map(themes.map((t) => [t.name, t.id]))
     const tagByName = new Map((tagsRes.data ?? []).map((t) => [t.name, t.id]))
