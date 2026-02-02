@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* Nexus DS from NexusBoilerplate - semantic tokens, light/dark theme */
+@theme {
+  --color-primary-weak: var(--color-orange-700);
+  --color-primary-subdued: var(--color-orange-500);
+  --color-primary-moderate: var(--color-orange-400);
+  --color-primary-strong: var(--color-orange-300);
+  --color-info-weak: var(--color-blue-700);
+  --color-info-subdued: var(--color-blue-500);
+  --color-info-moderate: var(--color-blue-400);
+  --color-info-strong: var(--color-blue-300);
+  --color-success-weak: var(--color-green-800);
+  --color-success-subdued: var(--color-green-600);
+  --color-success-moderate: var(--color-green-500);
+  --color-success-strong: var(--color-green-300);
+  --color-warning-weak: var(--color-yellow-600);
+  --color-warning-subdued: var(--color-yellow-400);
+  --color-warning-moderate: var(--color-yellow-300);
+  --color-warning-strong: var(--color-yellow-200);
+  --color-danger-weak: var(--color-red-800);
+  --color-danger-subdued: var(--color-red-600);
+  --color-danger-moderate: var(--color-red-500);
+  --color-danger-strong: var(--color-red-400);
+  --color-neutral-600: var(--color-zinc-600);
+  --color-neutral-weak: var(--color-zinc-500);
+  --color-neutral-subdued: var(--color-zinc-400);
+  --color-neutral-moderate: var(--color-zinc-300);
+  --color-neutral-strong: var(--color-zinc-100);
+  --color-neutral-inverted: var(--color-zinc-950);
+  --color-surface-base: var(--color-zinc-950);
+  --color-surface-low: var(--color-zinc-900);
+  --color-surface-mid: var(--color-zinc-800);
+  --color-surface-high: var(--color-zinc-700);
+  --color-surface-translucent-low: rgba(255, 255, 255, 0.0500);
+  --color-surface-translucent-mid: rgba(255, 255, 255, 0.1000);
+  --color-surface-translucent-high: rgba(255, 255, 255, 0.2000);
+  --color-stroke-neutral-translucent-weak: rgba(255, 255, 255, 0.1000);
+  --color-stroke-neutral-translucent-subdued: rgba(255, 255, 255, 0.2000);
+  --color-stroke-neutral-translucent-moderate: rgba(255, 255, 255, 0.3000);
+  --color-stroke-neutral-translucent-strong: rgba(255, 255, 255, 0.6000);
+  --spacing-0: 0px;
+  --spacing-0-5: 2px;
+  --spacing-1: 4px;
+  --spacing-1-5: 6px;
+  --spacing-2: 8px;
+  --spacing-2-5: 10px;
+  --spacing-3: 12px;
+  --spacing-3-5: 14px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-7: 28px;
+  --spacing-8: 32px;
+  --spacing-9: 36px;
+  --spacing-10: 40px;
+  --spacing-11: 44px;
+  --spacing-12: 48px;
+  --spacing-14: 56px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+  --radius-none: 0px;
+  --radius-sm: 2px;
+  --radius-base: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-full: 9999px;
+  --font-family-sans: Inter, sans-serif;
+  --text-heading-2xl: 60px;
+  --text-heading-2xl--line-height: 1.25;
+  --text-heading-2xl--letter-spacing: -1.4px;
+  --text-heading-xl: 48px;
+  --text-heading-xl--line-height: 1.25;
+  --text-heading-xl--letter-spacing: -1.2px;
+  --text-heading-lg: 36px;
+  --text-heading-lg--line-height: 1.25;
+  --text-heading-lg--letter-spacing: -0.9px;
+  --text-heading-md: 30px;
+  --text-heading-md--line-height: 1.25;
+  --text-heading-sm: 24px;
+  --text-heading-sm--line-height: 1.25;
+  --text-heading-xs: 18px;
+  --text-heading-xs--line-height: 1.25;
+  --text-title-md: 14px;
+  --text-title-md--line-height: 1.5;
+  --text-title-md--letter-spacing: 1.4px;
+  --text-title-sm: 12px;
+  --text-title-sm--line-height: 1.5;
+  --text-title-sm--letter-spacing: 1.2px;
+  --text-title-xs: 10px;
+  --text-title-xs--line-height: 1.5;
+  --text-title-xs--letter-spacing: 1px;
+  --text-body-xxl-semibold: 22px;
+  --text-body-xxl-semibold--line-height: 1.5;
+  --text-body-xxl: 22px;
+  --text-body-xxl--line-height: 1.5;
+  --text-body-xl-semibold: 18px;
+  --text-body-xl-semibold--line-height: 1.5;
+  --text-body-xl: 18px;
+  --text-body-xl--line-height: 1.5;
+  --text-body-lg-semibold: 16px;
+  --text-body-lg-semibold--line-height: 1.5;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 1.5;
+  --text-body-md-semibold: 14px;
+  --text-body-md-semibold--line-height: 1.5;
+  --text-body-md: 14px;
+  --text-body-md--line-height: 1.5;
+  --text-body-sm-semibold: 12px;
+  --text-body-sm-semibold--line-height: 1.375;
+  --text-body-sm-semibold--letter-spacing: 0.3px;
+  --text-body-sm: 12px;
+  --text-body-sm--line-height: 1.375;
+  --text-body-sm--letter-spacing: 0.3px;
+  --text-xs: 12px;
+  --text-xs--line-height: 1.375;
+  --text-xs--letter-spacing: 0.3px;
+  --text-sm: 14px;
+  --text-sm--line-height: 1.5;
+  --text-base: 16px;
+  --text-base--line-height: 1.5;
+  --text-lg: 18px;
+  --text-lg--line-height: 1.5;
+  --text-xl: 30px;
+  --text-xl--line-height: 1.25;
+  --text-xl--letter-spacing: -1px;
+  --size-size-3: 12px;
+  --size-size-4: 16px;
+  --size-size-5: 20px;
+  --size-size-6: 24px;
+  --size-size-8: 32px;
+  --size-size-12: 48px;
+}
+
+@layer base {
+  :root {
+    --text-heading-2xl: 60px;
+    --text-heading-2xl--line-height: 1.25;
+    --text-heading-2xl--letter-spacing: -1.4px;
+    --text-heading-xl: 48px;
+    --text-heading-xl--line-height: 1.25;
+    --text-heading-xl--letter-spacing: -1.2px;
+    --text-heading-lg: 36px;
+    --text-heading-lg--line-height: 1.25;
+    --text-heading-lg--letter-spacing: -0.9px;
+    --text-heading-md: 30px;
+    --text-heading-md--line-height: 1.25;
+    --text-heading-sm: 24px;
+    --text-heading-sm--line-height: 1.25;
+    --text-heading-xs: 18px;
+    --text-heading-xs--line-height: 1.25;
+    --text-title-md: 14px;
+    --text-title-md--line-height: 1.5;
+    --text-title-md--letter-spacing: 1.4px;
+    --text-title-sm: 12px;
+    --text-title-sm--line-height: 1.5;
+    --text-title-sm--letter-spacing: 1.2px;
+    --text-title-xs: 10px;
+    --text-title-xs--line-height: 1.5;
+    --text-title-xs--letter-spacing: 1px;
+    --text-body-xxl-semibold: 22px;
+    --text-body-xxl-semibold--line-height: 1.5;
+    --text-body-xxl: 22px;
+    --text-body-xxl--line-height: 1.5;
+    --text-body-xl-semibold: 18px;
+    --text-body-xl-semibold--line-height: 1.5;
+    --text-body-xl: 18px;
+    --text-body-xl--line-height: 1.5;
+    --text-body-lg-semibold: 16px;
+    --text-body-lg-semibold--line-height: 1.5;
+    --text-body-lg: 16px;
+    --text-body-lg--line-height: 1.5;
+    --text-body-md-semibold: 14px;
+    --text-body-md-semibold--line-height: 1.5;
+    --text-body-md: 14px;
+    --text-body-md--line-height: 1.5;
+    --text-body-sm-semibold: 12px;
+    --text-body-sm-semibold--line-height: 1.375;
+    --text-body-sm-semibold--letter-spacing: 0.3px;
+    --text-body-sm: 12px;
+    --text-body-sm--line-height: 1.375;
+    --text-body-sm--letter-spacing: 0.3px;
+    --text-xs: 12px;
+    --text-xs--line-height: 1.375;
+    --text-xs--letter-spacing: 0.3px;
+    --text-sm: 14px;
+    --text-sm--line-height: 1.5;
+    --text-base: 16px;
+    --text-base--line-height: 1.5;
+    --text-lg: 18px;
+    --text-lg--line-height: 1.5;
+    --text-xl: 30px;
+    --text-xl--line-height: 1.25;
+    --text-xl--letter-spacing: -1px;
+    --color-surface-base: var(--color-zinc-950);
+    --color-surface-low: var(--color-zinc-900);
+    --color-surface-mid: var(--color-zinc-800);
+    --color-surface-high: var(--color-zinc-700);
+    --color-surface-translucent-low: rgba(255, 255, 255, 0.0500);
+    --color-surface-translucent-mid: rgba(255, 255, 255, 0.1000);
+    --color-surface-translucent-high: rgba(255, 255, 255, 0.2000);
+    --color-neutral-600: var(--color-zinc-600);
+    --color-neutral-weak: var(--color-zinc-500);
+    --color-neutral-subdued: var(--color-zinc-400);
+    --color-neutral-moderate: var(--color-zinc-300);
+    --color-neutral-strong: var(--color-zinc-100);
+    --color-neutral-inverted: var(--color-zinc-950);
+    --color-stroke-neutral-translucent-weak: rgba(255, 255, 255, 0.1000);
+    --color-stroke-neutral-translucent-subdued: rgba(255, 255, 255, 0.2000);
+    --color-stroke-neutral-translucent-moderate: rgba(255, 255, 255, 0.3000);
+    --color-stroke-neutral-translucent-strong: rgba(255, 255, 255, 0.6000);
+  }
+
+  html[data-theme="dark"],
+  [data-theme="dark"] {
+    --color-surface-base: var(--color-zinc-950);
+    --color-surface-low: var(--color-zinc-900);
+    --color-surface-mid: var(--color-zinc-800);
+    --color-surface-high: var(--color-zinc-700);
+    --color-surface-translucent-low: rgba(255, 255, 255, 0.0500);
+    --color-surface-translucent-mid: rgba(255, 255, 255, 0.1000);
+    --color-surface-translucent-high: rgba(255, 255, 255, 0.2000);
+    --color-neutral-600: var(--color-zinc-600);
+    --color-neutral-weak: var(--color-zinc-500);
+    --color-neutral-subdued: var(--color-zinc-400);
+    --color-neutral-moderate: var(--color-zinc-300);
+    --color-neutral-strong: var(--color-zinc-100);
+    --color-neutral-inverted: var(--color-zinc-950);
+    --color-stroke-neutral-translucent-weak: rgba(255, 255, 255, 0.1000);
+    --color-stroke-neutral-translucent-subdued: rgba(255, 255, 255, 0.2000);
+    --color-stroke-neutral-translucent-moderate: rgba(255, 255, 255, 0.3000);
+    --color-stroke-neutral-translucent-strong: rgba(255, 255, 255, 0.6000);
+  }
+
+  html[data-theme="light"],
+  [data-theme="light"] {
+    --color-surface-base: var(--color-zinc-50);
+    --color-surface-low: var(--color-zinc-100);
+    --color-surface-mid: var(--color-zinc-200);
+    --color-surface-high: var(--color-zinc-300);
+    --color-surface-translucent-low: rgba(0, 0, 0, 0.0500);
+    --color-surface-translucent-mid: rgba(0, 0, 0, 0.1000);
+    --color-surface-translucent-high: rgba(0, 0, 0, 0.2000);
+    --color-neutral-strong: var(--color-zinc-900);
+    --color-neutral-moderate: var(--color-zinc-700);
+    --color-neutral-subdued: var(--color-zinc-600);
+    --color-neutral-weak: var(--color-zinc-500);
+    --color-neutral-600: var(--color-zinc-600);
+    --color-neutral-inverted: var(--color-zinc-50);
+    --color-stroke-neutral-translucent-weak: rgba(0, 0, 0, 0.1500);
+    --color-stroke-neutral-translucent-subdued: rgba(0, 0, 0, 0.2500);
+    --color-stroke-neutral-translucent-moderate: rgba(0, 0, 0, 0.3500);
+    --color-stroke-neutral-translucent-strong: rgba(0, 0, 0, 0.6500);
+  }
+
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  html,
+  body {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-surface-base);
+    color: var(--color-neutral-strong);
+  }
+}
