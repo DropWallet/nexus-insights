@@ -78,7 +78,7 @@ export function UniverseBackground() {
 
       for (let i = 0; i < state.stars.length; i++) {
         const star = state.stars[i]
-        star.z -= 2 + state.scrollDepth * 0.05
+        star.z -= 0.5 + state.scrollDepth * 0.025
 
         if (star.z <= 1) {
           star.z = 2000
