@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -37,8 +38,26 @@ function MoonIcon({ className }: { className?: string }) {
 }
 
 export function AppNav() {
+  const pathname = usePathname()
   const { resolvedTheme, setTheme } = useTheme()
   const { openDrawer } = useAddFeedbackDrawer()
+  const isAuthPage = pathname === '/auth'
+
+  if (isAuthPage) {
+    return (
+      <header className="flex flex-shrink-0 items-center border-b border-stroke-neutral-translucent-weak bg-surface-base px-4 py-3">
+        <Link href="/auth" className="flex items-center gap-2 text-neutral-strong" aria-label="Nexus Insights">
+          <Image
+            src="/nexus-logo.svg"
+            alt=""
+            width={32}
+            height={32}
+            className="h-8 w-8 flex-shrink-0"
+          />
+        </Link>
+      </header>
+    )
+  }
 
   return (
     <header className="flex flex-shrink-0 items-center gap-6 border-b border-stroke-neutral-translucent-weak bg-surface-base px-4 py-3">
@@ -78,7 +97,15 @@ export function AppNav() {
           )}
         </NavigationMenuList>
       </NavigationMenu>
-      <div className="ml-auto">
+      <div className="ml-auto flex items-center gap-2">
+        <form action="/api/auth/logout" method="POST" className="inline">
+          <button
+            type="submit"
+            className="rounded-base px-3 py-1.5 text-body-sm text-neutral-subdued transition-colors hover:bg-surface-translucent-mid hover:text-neutral-strong focus:outline-none focus:ring-2 focus:ring-focus-subdued focus:ring-offset-2 focus:ring-offset-surface-base"
+          >
+            Log out
+          </button>
+        </form>
         <button
           type="button"
           onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
