@@ -25,7 +25,7 @@ export default async function AnalyticsPage() {
 
   const [themesRes, tagsRes, linksRes, countRes] = await Promise.all([
     supabase.from('themes').select('id, name').order('order_index'),
-    supabase.from('tags').select('id, name').order('name'),
+    supabase.from('tags').select('id, name, color_code').order('name'),
     supabase.from('insight_tags').select('tag_id, insights(theme_id)'),
     supabase.from('insight_tags').select('tag_id'),
   ])
@@ -51,7 +51,7 @@ export default async function AnalyticsPage() {
   }
 
   const themes = (themesRes.data ?? []) as { id: string; name: string }[]
-  const tags = (tagsRes.data ?? []) as { id: string; name: string }[]
+  const tags = (tagsRes.data ?? []) as { id: string; name: string; color_code: string | null }[]
   const linksRaw = linksRes.data ?? []
   type LinkRow = { tag_id: string; insights: { theme_id: string } | { theme_id: string }[] | null }
   const links = linksRaw as LinkRow[]
@@ -79,6 +79,7 @@ export default async function AnalyticsPage() {
   const tagCounts: TagCountRow[] = tags.map((t) => ({
     tagId: t.id,
     tagName: t.name,
+    colorCode: t.color_code ?? null,
     countAll: countAll[t.id] ?? 0,
     countByTheme: themes.reduce<Record<string, number>>((acc, th) => {
       acc[th.id] = countByTheme[th.id]?.[t.id] ?? 0

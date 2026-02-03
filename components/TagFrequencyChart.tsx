@@ -9,11 +9,21 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Rectangle,
 } from 'recharts'
+
+const DEFAULT_TAG_COLORS = [
+  '#f97316', '#eab308', '#22c55e', '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899', '#ef4444',
+  '#84cc16', '#14b8a6', '#6366f1', '#a855f7', '#f43f5e',
+]
+
+const Y_AXIS_LABEL_WIDTH = 200
+const LABEL_TRUNCATE_LENGTH = 28
 
 export type TagCountRow = {
   tagId: string
   tagName: string
+  colorCode?: string | null
   countAll: number
   countByTheme: Record<string, number>
 }
@@ -23,13 +33,82 @@ interface TagFrequencyChartProps {
   themes: { id: string; name: string }[]
 }
 
+function getTagColor(tagIndex: number, colorCode?: string | null): string {
+  if (colorCode && /^#[0-9A-Fa-f]{3,8}$/.test(colorCode)) return colorCode
+  return DEFAULT_TAG_COLORS[tagIndex % DEFAULT_TAG_COLORS.length]
+}
+
+function truncateLabel(name: string, maxLen: number): string {
+  if (name.length <= maxLen) return name
+  return `${name.slice(0, maxLen - 1)}…`
+}
+
+// Custom bar shape: use fill from data (payload) so each bar gets its color
+function ColoredBarShape(props: {
+  x?: number
+  y?: number
+  width?: number
+  height?: number
+  radius?: number | [number, number, number, number]
+  fill?: string
+  payload?: { fill?: string }
+  [key: string]: unknown
+}) {
+  const { x = 0, y = 0, width = 0, height = 0, radius, fill: fillProp, payload, ...rest } = props
+  const fill = (fillProp ?? (payload?.fill as string)) ?? 'var(--color-primary-moderate)'
+  const rectRadius: number | [number, number, number, number] | undefined =
+    Array.isArray(radius) && radius.length === 4
+      ? (radius as [number, number, number, number])
+      : typeof radius === 'number'
+        ? radius
+        : undefined
+  return (
+    <Rectangle
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      radius={rectRadius}
+      fill={fill}
+      {...rest}
+    />
+  )
+}
+
+// Custom Y-axis tick: single-line truncated text, no wrapping
+function YAxisTick(props: {
+  x?: number
+  y?: number
+  payload?: { value?: string }
+  [key: string]: unknown
+}) {
+  const { x = 0, y = 0, payload } = props
+  const text = payload?.value ?? ''
+  const truncated = truncateLabel(text, LABEL_TRUNCATE_LENGTH)
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text
+        x={0}
+        y={0}
+        dy={4}
+        textAnchor="end"
+        fill="var(--color-neutral-subdued)"
+        fontSize={12}
+      >
+        {truncated}
+      </text>
+    </g>
+  )
+}
+
 export function TagFrequencyChart({ tagCounts, themes }: TagFrequencyChartProps) {
   const [themeId, setThemeId] = useState<string | null>(null)
 
   const data = useMemo(() => {
-    return tagCounts.map((t) => ({
+    return tagCounts.map((t, i) => ({
       name: t.tagName,
       count: themeId == null ? t.countAll : (t.countByTheme[themeId] ?? 0),
+      fill: getTagColor(i, t.colorCode),
     }))
   }, [tagCounts, themeId])
 
@@ -63,19 +142,27 @@ export function TagFrequencyChart({ tagCounts, themes }: TagFrequencyChartProps)
       </div>
       <div className="h-[400px] w-full rounded-lg bg-surface-low border border-stroke-neutral-translucent-weak p-4">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 8, right: 8, left: 8, bottom: 8 }}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-stroke-neutral-translucent-subdued" />
+          <BarChart
+            data={data}
+            layout="vertical"
+            margin={{ top: 8, right: 24, left: 8, bottom: 8 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" className="stroke-stroke-neutral-translucent-subdued" horizontal={false} />
             <XAxis
-              dataKey="name"
-              tick={{ fill: 'var(--color-neutral-subdued)', fontSize: 12 }}
-              tickLine={{ stroke: 'var(--color-stroke-neutral-translucent-weak)' }}
-              axisLine={{ stroke: 'var(--color-stroke-neutral-translucent-weak)' }}
-            />
-            <YAxis
+              type="number"
               tick={{ fill: 'var(--color-neutral-subdued)', fontSize: 12 }}
               tickLine={{ stroke: 'var(--color-stroke-neutral-translucent-weak)' }}
               axisLine={{ stroke: 'var(--color-stroke-neutral-translucent-weak)' }}
               allowDecimals={false}
+            />
+            <YAxis
+              type="category"
+              dataKey="name"
+              width={Y_AXIS_LABEL_WIDTH}
+              tick={<YAxisTick />}
+              tickLine={{ stroke: 'var(--color-stroke-neutral-translucent-weak)' }}
+              axisLine={{ stroke: 'var(--color-stroke-neutral-translucent-weak)' }}
+              interval={0}
             />
             <Tooltip
               contentStyle={{
@@ -89,7 +176,13 @@ export function TagFrequencyChart({ tagCounts, themes }: TagFrequencyChartProps)
               formatter={(value: number | undefined) => [value ?? 0, 'Insights']}
               labelFormatter={(label) => `Tag: ${label}`}
             />
-            <Bar dataKey="count" fill="var(--color-primary-moderate)" radius={[2, 2, 0, 0]} />
+            <Bar
+              dataKey="count"
+              radius={[0, 2, 2, 0]}
+              minPointSize={4}
+              isAnimationActive={false}
+              shape={<ColoredBarShape />}
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>
