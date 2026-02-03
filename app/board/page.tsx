@@ -400,15 +400,24 @@ export default function BoardPage() {
                       Suggested: {selectedInsight.suggested_theme.name}
                     </span>
                   )}
-                  {selectedInsight.source_url && (
-                    <a
-                      href={selectedInsight.source_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-body-sm text-primary-subdued hover:text-primary-strong hover:underline mb-4 inline-block"
-                    >
-                      Source
-                    </a>
+                  {(selectedInsight.source_url || selectedInsight.source_type) && (
+                    <div className="mb-4 flex items-center gap-2 flex-wrap">
+                      {selectedInsight.source_url && (
+                        <a
+                          href={selectedInsight.source_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-body-sm text-primary-subdued hover:text-primary-strong hover:underline"
+                        >
+                          Source
+                        </a>
+                      )}
+                      {selectedInsight.source_type && (
+                        <span className="text-body-sm text-neutral-subdued">
+                          {selectedInsight.source_type}
+                        </span>
+                      )}
+                    </div>
                   )}
                   <Typography variant="title-xs" className="mb-2 text-neutral-moderate">
                     Tags

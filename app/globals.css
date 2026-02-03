@@ -7,10 +7,16 @@
   --color-primary-subdued: var(--color-orange-500);
   --color-primary-moderate: var(--color-orange-400);
   --color-primary-strong: var(--color-orange-300);
+  --color-info-deep: var(--color-blue-900);
+  --color-info-800: var(--color-blue-800);
   --color-info-weak: var(--color-blue-700);
   --color-info-subdued: var(--color-blue-500);
   --color-info-moderate: var(--color-blue-400);
   --color-info-strong: var(--color-blue-300);
+  --color-info-foreground: var(--color-blue-100);
+  /* Tag pill backgrounds: 30% default, 80% on hover; overridden in light theme */
+  --color-info-tag-bg: color-mix(in srgb, var(--color-blue-900) 30%, transparent);
+  --color-info-tag-bg-hover: color-mix(in srgb, var(--color-blue-700) 80%, transparent);
   --color-success-weak: var(--color-green-800);
   --color-success-subdued: var(--color-green-600);
   --color-success-moderate: var(--color-green-500);
@@ -257,6 +263,12 @@
     --color-stroke-neutral-translucent-subdued: rgba(0, 0, 0, 0.2500);
     --color-stroke-neutral-translucent-moderate: rgba(0, 0, 0, 0.3500);
     --color-stroke-neutral-translucent-strong: rgba(0, 0, 0, 0.6500);
+    /* Info/tag: flip dark values for light mode (light tint bg, dark text) */
+    --color-info-strong: var(--color-blue-800);
+    --color-info-foreground: var(--color-blue-700);
+    --color-info-800: var(--color-blue-400);
+    --color-info-tag-bg: color-mix(in srgb, var(--color-blue-200) 30%, transparent);
+    --color-info-tag-bg-hover: color-mix(in srgb, var(--color-blue-400) 80%, transparent);
   }
 
   * {

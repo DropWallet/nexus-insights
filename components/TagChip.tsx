@@ -14,7 +14,7 @@ interface TagChipProps {
 }
 
 const chipClasses =
-  'px-2 py-0.5 rounded text-neutral-subdued bg-surface-translucent-mid hover:bg-surface-translucent-high hover:text-neutral-strong'
+  'px-2 py-0.5 rounded border border-info-800 text-info-strong bg-info-tag-bg hover:bg-info-tag-bg-hover hover:text-info-foreground'
 
 const bodySmStyle = {
   fontSize: 'var(--text-body-sm)',
@@ -79,7 +79,7 @@ export function TagChipWithRemove({ tag, onRemove, onTagClick, className }: TagC
           e.stopPropagation()
           onRemove()
         }}
-        className="ml-0.5 text-neutral-subdued hover:text-danger-moderate"
+        className="ml-0.5 text-info-strong hover:text-danger-moderate"
         aria-label={`Remove ${tag.name}`}
       >
         ×

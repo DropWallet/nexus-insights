@@ -72,7 +72,7 @@ export function AddFeedbackDrawer() {
     <Drawer open={open} onOpenChange={setOpen} direction="bottom">
       <DrawerContent side="bottom" className="flex flex-col max-h-[96vh]">
         <DrawerHandle />
-        <div className="w-full max-w-2xl mx-auto flex flex-col flex-1 min-h-0">
+        <div className="w-full max-w-2xl mx-auto mb-2 flex flex-col flex-1 min-h-0">
           <DrawerHeader>
             <DrawerTitle asChild>
               <Typography variant="heading-sm" as="h2" className="mb-3 text-neutral-strong">

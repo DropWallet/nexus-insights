@@ -44,7 +44,7 @@ export function FilterTag({ tag, selected, onToggle, onRequestDelete }: FilterTa
         'inline-flex items-center pr-1 gap-0 rounded-base transition-colors cursor-pointer',
         selected
           ? 'ring-2 ring-primary-moderate bg-primary-moderate/20 text-primary-strong'
-          : 'bg-surface-translucent-mid text-neutral-subdued hover:bg-surface-translucent-high hover:text-neutral-strong'
+          : 'bg-info-tag-bg text-info-strong hover:bg-info-tag-bg-hover hover:text-info-foreground'
       )}
     >
       <button
@@ -60,7 +60,7 @@ export function FilterTag({ tag, selected, onToggle, onRequestDelete }: FilterTa
           e.stopPropagation()
           onRequestDelete()
         }}
-        className="p-0.5 rounded hover:bg-surface-translucent-mid text-neutral-subdued hover:text-neutral-strong focus:outline-none focus:ring-2 focus:ring-focus-subdued focus:ring-offset-2 focus:ring-offset-surface-base"
+        className="p-0.5 rounded hover:bg-info-tag-bg-hover text-info-strong hover:text-info-foreground focus:outline-none focus:ring-2 focus:ring-focus-subdued focus:ring-offset-2 focus:ring-offset-surface-base"
         aria-label={`Delete tag ${tag.name}`}
       >
         <CloseIcon />
