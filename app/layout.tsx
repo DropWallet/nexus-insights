@@ -23,7 +23,7 @@ export default function RootLayout({
         <ThemeProvider>
           <AddFeedbackDrawerProvider>
             <AppNav />
-            {children}
+            <main className="pt-16">{children}</main>
             <AddFeedbackDrawer />
             <Suspense fallback={null}>
               <SyncDrawerFromUrl />

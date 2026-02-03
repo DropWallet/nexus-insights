@@ -294,7 +294,7 @@ export default function BoardPage() {
 
   if (typeof window !== 'undefined' && (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)) {
     return (
-      <div className="min-h-screen bg-surface-base text-neutral-strong p-6">
+      <div className="min-h-[calc(100vh-4rem)] bg-surface-base text-neutral-strong p-6">
         <div className="max-w-2xl mx-auto">
           <Typography variant="body-md" className="text-neutral-moderate">
             Configure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local.
@@ -309,7 +309,7 @@ export default function BoardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-surface-base text-neutral-strong p-6 flex items-center justify-center">
+      <div className="min-h-[calc(100vh-4rem)] bg-surface-base text-neutral-strong p-6 flex items-center justify-center">
         <Typography variant="body-md" className="text-neutral-subdued">
           Loading board…
         </Typography>
@@ -319,7 +319,7 @@ export default function BoardPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-surface-base text-neutral-strong p-6">
+      <div className="min-h-[calc(100vh-4rem)] bg-surface-base text-neutral-strong p-6">
         <div className="max-w-2xl mx-auto">
           <Typography variant="body-md" className="text-danger-moderate">
             {error}
@@ -333,7 +333,7 @@ export default function BoardPage() {
   }
 
   return (
-    <div className="h-screen bg-surface-base text-neutral-strong flex flex-col overflow-hidden">
+    <div className="h-[calc(100vh-4rem)] bg-surface-base text-neutral-strong flex flex-col overflow-hidden">
       <header className="flex-shrink-0 p-4 border-b border-stroke-neutral-translucent-weak">
         <Typography variant="heading-md" as="h1">
           Insight board
