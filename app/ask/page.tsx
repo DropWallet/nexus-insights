@@ -119,7 +119,7 @@ export default function AskPage() {
           <form
             onSubmit={handleSubmit}
             className={cn(
-              'h-full rounded-lg border border-stroke-neutral-translucent-subdued bg-surface-base',
+              'h-full rounded-lg border border-stroke-neutral-translucent-subdued bg-surface-low',
               'flex flex-col gap-1.5 p-3',
               'focus-within:outline-none focus-within:ring-2 focus-within:ring-focus-subdued focus-within:ring-offset-2 focus-within:ring-offset-surface-base'
             )}
