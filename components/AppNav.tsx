@@ -16,6 +16,7 @@ import { useAddFeedbackDrawer } from '@/lib/add-feedback-drawer-context'
 const navItems = [
   { href: '/', label: 'Home' },
   { href: '/board', label: 'Board' },
+  { href: '/ask', label: 'Insights' },
   { href: '/analytics', label: 'Analytics' },
   { href: '/ingest', label: 'Add feedback', openDrawer: true },
 ]
@@ -45,7 +46,7 @@ export function AppNav() {
 
   if (isAuthPage) {
     return (
-      <header className="flex flex-shrink-0 items-center border-b border-stroke-neutral-translucent-weak bg-surface-base px-4 py-3">
+      <header className="fixed top-0 left-0 right-0 z-50 flex flex-shrink-0 items-center border-b border-stroke-neutral-translucent-weak bg-surface-base px-4 py-3">
         <Link href="/auth" className="flex items-center gap-2 text-neutral-strong" aria-label="Nexus Insights">
           <Image
             src="/nexus-logo.svg"
@@ -60,7 +61,7 @@ export function AppNav() {
   }
 
   return (
-    <header className="flex flex-shrink-0 items-center gap-6 border-b border-stroke-neutral-translucent-weak bg-surface-base px-4 py-3">
+    <header className="fixed top-0 left-0 right-0 z-50 flex flex-shrink-0 items-center gap-6 border-b border-stroke-neutral-translucent-weak bg-surface-base px-4 py-3">
       <Link href="/" className="flex items-center gap-2 text-neutral-strong" aria-label="Nexus Insights home">
         <Image
           src="/nexus-logo.svg"

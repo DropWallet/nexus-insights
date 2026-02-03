@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic'
 export default async function AnalyticsPage() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
     return (
-      <div className="min-h-screen bg-surface-base text-neutral-strong p-6">
+      <div className="min-h-[calc(100vh-4rem)] bg-surface-base text-neutral-strong p-6">
         <div className="max-w-2xl mx-auto">
           <Typography variant="body-md" className="text-neutral-moderate">
             Configure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local to load analytics.
@@ -37,7 +37,7 @@ export default async function AnalyticsPage() {
       linksRes.error?.message ??
       countRes.error?.message
     return (
-      <div className="min-h-screen bg-surface-base text-neutral-strong p-6">
+      <div className="min-h-[calc(100vh-4rem)] bg-surface-base text-neutral-strong p-6">
         <div className="max-w-2xl mx-auto">
           <Typography variant="body-md" className="text-danger-moderate">
             Failed to load analytics: {msg}
@@ -88,7 +88,7 @@ export default async function AnalyticsPage() {
   }))
 
   return (
-    <div className="min-h-screen bg-surface-base text-neutral-strong p-6">
+    <div className="min-h-[calc(100vh-4rem)] bg-surface-base text-neutral-strong p-6">
       <div className="max-w-4xl mx-auto space-y-6">
         <Typography variant="heading-lg" as="h1">
           Tag frequency

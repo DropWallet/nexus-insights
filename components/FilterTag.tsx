@@ -42,6 +42,7 @@ export function FilterTag({ tag, selected, onToggle, onRequestDelete }: FilterTa
       style={bodyMdStyle}
       className={cn(
         'inline-flex items-center pr-1 gap-0 rounded-base transition-colors cursor-pointer',
+        'focus-within:outline-none focus-within:ring-2 focus-within:ring-focus-subdued focus-within:ring-offset-2 focus-within:ring-offset-surface-base',
         selected
           ? 'ring-2 ring-primary-moderate bg-primary-moderate/20 text-primary-strong'
           : 'bg-info-tag-bg text-info-strong hover:bg-info-tag-bg-hover hover:text-info-foreground'
@@ -50,7 +51,7 @@ export function FilterTag({ tag, selected, onToggle, onRequestDelete }: FilterTa
       <button
         type="button"
         onClick={onToggle}
-        className="px-2 py-1 text-left min-w-0 focus:outline-none focus:ring-2 focus:ring-focus-subdued focus:ring-offset-2 focus:ring-offset-surface-base rounded-base"
+        className="px-2 py-1 text-left min-w-0 focus:outline-none rounded-base"
       >
         {tag.name}
       </button>
@@ -60,7 +61,7 @@ export function FilterTag({ tag, selected, onToggle, onRequestDelete }: FilterTa
           e.stopPropagation()
           onRequestDelete()
         }}
-        className="p-0.5 rounded hover:bg-info-tag-bg-hover text-info-strong hover:text-info-foreground focus:outline-none focus:ring-2 focus:ring-focus-subdued focus:ring-offset-2 focus:ring-offset-surface-base"
+        className="p-0.5 rounded hover:bg-info-tag-bg-hover text-info-strong hover:text-info-foreground focus:outline-none"
         aria-label={`Delete tag ${tag.name}`}
       >
         <CloseIcon />
