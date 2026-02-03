@@ -102,13 +102,13 @@ export default function AskPage() {
         </div>
       </div>
 
-      {/* Gradient overlay: content fades out when scrolling under input (Gemini-style) */}
+      {/* Gradient overlay: extends to bottom of screen (under input), fades to solid surface-base */}
       <div
-        className="fixed left-0 right-0 pointer-events-none z-10"
+        className="fixed left-0 right-0 bottom-0 pointer-events-none z-10"
         style={{
-          bottom: 'calc(2rem + 128px)',
-          height: '80px',
-          background: 'linear-gradient(to bottom, transparent, var(--color-surface-base))',
+          height: 'calc(2rem + 128px + 80px)',
+          background:
+            'linear-gradient(to bottom, transparent 0%, var(--color-surface-base) 33%, var(--color-surface-base) 100%)',
         }}
         aria-hidden
       />
@@ -119,7 +119,7 @@ export default function AskPage() {
           <form
             onSubmit={handleSubmit}
             className={cn(
-              'h-full rounded-lg border border-stroke-neutral-translucent-subdued bg-surface-low',
+              'h-full rounded-lg border border-stroke-neutral-translucent-subdued bg-surface-base',
               'flex flex-col gap-1.5 p-3',
               'focus-within:outline-none focus-within:ring-2 focus-within:ring-focus-subdued focus-within:ring-offset-2 focus-within:ring-offset-surface-base'
             )}
