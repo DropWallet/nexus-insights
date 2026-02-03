@@ -115,6 +115,14 @@ export default function BoardPage() {
     fetchData()
   }, [fetchData])
 
+  useEffect(() => {
+    const onInsightsUpdated = () => {
+      fetchData()
+    }
+    window.addEventListener('insights-updated', onInsightsUpdated)
+    return () => window.removeEventListener('insights-updated', onInsightsUpdated)
+  }, [fetchData])
+
   const toggleTagFilter = (tagId: string) => {
     setSelectedTagIds((prev) => {
       const next = new Set(prev)
@@ -325,22 +333,8 @@ export default function BoardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface-base text-neutral-strong flex flex-col">
+    <div className="h-screen bg-surface-base text-neutral-strong flex flex-col overflow-hidden">
       <header className="flex-shrink-0 p-4 border-b border-stroke-neutral-translucent-weak">
-        <div className="flex items-center gap-4 mb-3">
-          <Link href="/" className="text-neutral-subdued hover:text-neutral-strong text-body-sm">
-            ← Home
-          </Link>
-          <Link href="/ingest" className="text-neutral-subdued hover:text-neutral-strong text-body-sm">
-            Add feedback
-          </Link>
-          <Link href="/insights" className="text-neutral-subdued hover:text-neutral-strong text-body-sm">
-            List view
-          </Link>
-          <Link href="/analytics" className="text-neutral-subdued hover:text-neutral-strong text-body-sm">
-            Analytics
-          </Link>
-        </div>
         <Typography variant="heading-md" as="h1">
           Insight board
         </Typography>
@@ -406,6 +400,16 @@ export default function BoardPage() {
                       Suggested: {selectedInsight.suggested_theme.name}
                     </span>
                   )}
+                  {selectedInsight.source_url && (
+                    <a
+                      href={selectedInsight.source_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-body-sm text-primary-subdued hover:text-primary-strong hover:underline mb-4 inline-block"
+                    >
+                      Source
+                    </a>
+                  )}
                   <Typography variant="title-xs" className="mb-2 text-neutral-moderate">
                     Tags
                   </Typography>
@@ -463,7 +467,7 @@ export default function BoardPage() {
                     <button
                       type="button"
                       onClick={openAddNewTagModal}
-                      className="px-2 py-0.5 rounded text-body-sm border border-dashed border-stroke-neutral-translucent-moderate text-neutral-subdued hover:bg-surface-translucent-mid hover:text-neutral-strong"
+                      className="px-2 py-0.5 rounded text-body-sm text-neutral-subdued hover:bg-surface-translucent-mid hover:text-neutral-strong"
                     >
                       + Add new tag
                     </button>
@@ -532,7 +536,7 @@ export default function BoardPage() {
                 value={newTagName}
                 onChange={(e) => setNewTagName(e.target.value)}
                 placeholder="e.g. localization, android"
-                className="w-full px-4 py-2 rounded-base border border-stroke-neutral-translucent-subdued bg-surface-low text-neutral-strong placeholder-neutral-weak text-body-md focus:outline-none focus:ring-2 focus:ring-primary-moderate"
+                className="w-full px-4 py-2 rounded-base border border-stroke-neutral-translucent-subdued bg-surface-low text-neutral-strong placeholder-neutral-weak text-body-md focus:outline-none focus:ring-2 focus:ring-focus-subdued focus:ring-offset-2 focus:ring-offset-surface-base"
                 onKeyDown={(e) => e.key === 'Enter' && createNewTagAndAdd()}
               />
               {newTagError && (
@@ -551,9 +555,9 @@ export default function BoardPage() {
         </Dialog>
       </header>
 
-      <main className="flex-1 overflow-x-auto p-4">
+      <main className="flex-1 min-h-0 overflow-x-auto p-4 flex">
         <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="flex gap-4 min-w-max pb-4">
+          <div className="flex gap-4 min-w-max h-full min-h-0">
             {themes.map((theme) => (
               <Droppable key={theme.id} droppableId={theme.id}>
                 {(provided, snapshot) => (
@@ -561,13 +565,13 @@ export default function BoardPage() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                     className={cn(
-                      'flex-shrink-0 w-72 rounded-lg p-3 min-h-[200px] transition-colors',
+                      'flex-shrink-0 w-72 rounded-lg p-3 h-full max-h-full flex flex-col overflow-hidden transition-colors',
                       snapshot.isDraggingOver
                         ? 'bg-surface-translucent-low'
                         : 'bg-surface-low'
                     )}
                   >
-                    <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center justify-between mb-3 flex-shrink-0">
                       <Typography variant="title-sm" className="text-neutral-moderate">
                         {theme.name}
                       </Typography>
@@ -575,7 +579,7 @@ export default function BoardPage() {
                         {(insightsByTheme[theme.id] ?? []).length}
                       </span>
                     </div>
-                    <div className="space-y-2">
+                    <div className="flex-1 min-h-0 overflow-y-auto pl-0 pr-1 space-y-2">
                       {(insightsByTheme[theme.id] ?? []).map((insight, index) => (
                         <Draggable key={insight.id} draggableId={insight.id} index={index}>
                           {(provided, snapshot) => (
@@ -595,7 +599,7 @@ export default function BoardPage() {
                                 role="button"
                                 tabIndex={0}
                               >
-                                <Typography variant="body-sm" className="line-clamp-3 mb-2">
+                                <Typography variant="body-sm" className="line-clamp-4 mb-2">
                                   {insight.content}
                                 </Typography>
                                 {insight.suggested_theme?.name && insight.suggested_theme_id && insight.suggested_theme_id !== insight.theme_id && (
@@ -619,8 +623,8 @@ export default function BoardPage() {
                           )}
                         </Draggable>
                       ))}
+                      {provided.placeholder}
                     </div>
-                    {provided.placeholder}
                   </div>
                 )}
               </Droppable>

@@ -16,7 +16,7 @@ export function Button({
   return (
     <button
       className={cn(
-        'rounded-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary-moderate focus:ring-offset-2',
+        'rounded-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-focus-subdued focus:ring-offset-2 focus:ring-offset-surface-base',
         {
           'bg-primary-moderate text-neutral-inverted hover:bg-primary-strong': variant === 'primary',
           'bg-surface-translucent-mid border border-stroke-neutral-translucent-subdued text-neutral-strong hover:bg-surface-translucent-low': variant === 'secondary',

@@ -1,51 +1,37 @@
-import Link from 'next/link'
 import { Typography } from '@/components/Typography'
+import { UniverseBackground } from '@/components/UniverseBackground'
+import { OpenAddFeedbackButton } from '@/components/OpenAddFeedbackButton'
+import { LoaderDebugModal } from '@/components/LoaderDebugModal'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-surface-base text-neutral-strong p-6">
-      <div className="max-w-2xl mx-auto space-y-6">
-        <Typography variant="heading-xl" as="h1" className="mb-2">
-          Nexus Insights
-        </Typography>
-        <Typography variant="body-lg" className="text-neutral-moderate">
-          Log, synthesise and group qualitative user feedback from interviews, Reddit, Discord, Slack and more.
-        </Typography>
-        <div className="flex gap-4 pt-4">
-          <Link
-            href="/ingest"
-            className="inline-flex items-center justify-center rounded-base font-medium bg-primary-moderate text-neutral-inverted hover:bg-primary-strong px-4 py-2 text-base transition-colors focus:outline-none focus:ring-2 focus:ring-primary-moderate focus:ring-offset-2"
+    <div className="relative min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center bg-surface-base text-neutral-strong overflow-hidden">
+      <UniverseBackground />
+      <div className="relative z-10 flex flex-col items-center w-full max-w-lg gap-6 px-6">
+        <div className="flex flex-col items-center w-full gap-2">
+          <LoaderDebugModal>
+            <Typography
+              variant="heading-lg"
+              as="span"
+              className="w-full text-center text-neutral-strong block"
+            >
+              Welcome to Nexus Insights
+            </Typography>
+          </LoaderDebugModal>
+          <Typography
+            variant="body-md"
+            className="w-full text-center text-neutral-subdued"
           >
-            Add feedback
-          </Link>
-          <Link
-            href="/board"
-            className="inline-flex items-center justify-center rounded-base font-medium bg-surface-translucent-mid border border-stroke-neutral-translucent-subdued text-neutral-strong hover:bg-surface-translucent-low px-4 py-2 text-base transition-colors focus:outline-none focus:ring-2 focus:ring-primary-moderate focus:ring-offset-2"
-          >
-            Board
-          </Link>
-          <Link
-            href="/insights"
-            className="inline-flex items-center justify-center rounded-base font-medium bg-surface-translucent-mid border border-stroke-neutral-translucent-subdued text-neutral-strong hover:bg-surface-translucent-low px-4 py-2 text-base transition-colors focus:outline-none focus:ring-2 focus:ring-primary-moderate focus:ring-offset-2"
-          >
-            List view
-          </Link>
-          <Link
-            href="/analytics"
-            className="inline-flex items-center justify-center rounded-base font-medium bg-surface-translucent-mid border border-stroke-neutral-translucent-subdued text-neutral-strong hover:bg-surface-translucent-low px-4 py-2 text-base transition-colors focus:outline-none focus:ring-2 focus:ring-primary-moderate focus:ring-offset-2"
-          >
-            Analytics
-          </Link>
-        </div>
-        <div className="mt-8 p-4 bg-surface-low rounded-lg border border-stroke-neutral-translucent-weak">
-          <Typography variant="title-sm" className="mb-2">
-            Phase 2
-          </Typography>
-          <Typography variant="body-sm" className="text-neutral-subdued">
-            Add feedback → Analyze → insights land in Uncategorised. Open Board to drag cards between themes, filter by tags, and add/remove tags on cards.
+            Log, synthesise and group qualitative user feedback from interviews, Reddit, Discord, Slack and more.
           </Typography>
         </div>
+        <OpenAddFeedbackButton
+          className="inline-flex justify-center items-center rounded-base font-medium bg-primary-moderate text-neutral-inverted hover:bg-primary-strong px-4 py-2 text-body-sm transition-colors focus:outline-none focus:ring-2 focus:ring-focus-subdued focus:ring-offset-2 focus:ring-offset-surface-base"
+        >
+          Add feedback
+        </OpenAddFeedbackButton>
       </div>
     </div>
   )
 }
+

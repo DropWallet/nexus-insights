@@ -1,5 +1,10 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { ThemeProvider } from '@/lib/theme/provider'
+import { AddFeedbackDrawerProvider } from '@/lib/add-feedback-drawer-context'
+import { AppNav } from '@/components/AppNav'
+import { AddFeedbackDrawer } from '@/components/AddFeedbackDrawer'
+import { SyncDrawerFromUrl } from '@/components/SyncDrawerFromUrl'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -16,7 +21,14 @@ export default function RootLayout({
     <html lang="en" data-theme="dark">
       <body>
         <ThemeProvider>
-          {children}
+          <AddFeedbackDrawerProvider>
+            <AppNav />
+            {children}
+            <AddFeedbackDrawer />
+            <Suspense fallback={null}>
+              <SyncDrawerFromUrl />
+            </Suspense>
+          </AddFeedbackDrawerProvider>
         </ThemeProvider>
       </body>
     </html>

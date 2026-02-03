@@ -89,20 +89,6 @@ export default async function AnalyticsPage() {
   return (
     <div className="min-h-screen bg-surface-base text-neutral-strong p-6">
       <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="text-neutral-subdued hover:text-neutral-strong text-body-sm">
-            ← Home
-          </Link>
-          <Link href="/board" className="text-neutral-subdued hover:text-neutral-strong text-body-sm">
-            Board
-          </Link>
-          <Link href="/insights" className="text-neutral-subdued hover:text-neutral-strong text-body-sm">
-            Insights
-          </Link>
-          <Link href="/ingest" className="text-neutral-subdued hover:text-neutral-strong text-body-sm">
-            Add feedback
-          </Link>
-        </div>
         <Typography variant="heading-lg" as="h1">
           Tag frequency
         </Typography>

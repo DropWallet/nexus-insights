@@ -50,7 +50,7 @@ export function FilterTag({ tag, selected, onToggle, onRequestDelete }: FilterTa
       <button
         type="button"
         onClick={onToggle}
-        className="px-2 py-1 text-left min-w-0"
+        className="px-2 py-1 text-left min-w-0 focus:outline-none focus:ring-2 focus:ring-focus-subdued focus:ring-offset-2 focus:ring-offset-surface-base rounded-base"
       >
         {tag.name}
       </button>
@@ -60,7 +60,7 @@ export function FilterTag({ tag, selected, onToggle, onRequestDelete }: FilterTa
           e.stopPropagation()
           onRequestDelete()
         }}
-        className="p-0.5 rounded hover:bg-surface-translucent-mid text-neutral-subdued hover:text-neutral-strong"
+        className="p-0.5 rounded hover:bg-surface-translucent-mid text-neutral-subdued hover:text-neutral-strong focus:outline-none focus:ring-2 focus:ring-focus-subdued focus:ring-offset-2 focus:ring-offset-surface-base"
         aria-label={`Delete tag ${tag.name}`}
       >
         <CloseIcon />

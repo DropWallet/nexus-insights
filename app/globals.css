@@ -40,6 +40,7 @@
   --color-stroke-neutral-translucent-subdued: rgba(255, 255, 255, 0.2000);
   --color-stroke-neutral-translucent-moderate: rgba(255, 255, 255, 0.3000);
   --color-stroke-neutral-translucent-strong: rgba(255, 255, 255, 0.6000);
+  --color-focus-subdued: var(--color-info-subdued);
   --spacing-0: 0px;
   --spacing-0-5: 2px;
   --spacing-1: 4px;
@@ -262,6 +263,8 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-stroke-neutral-translucent-subdued) var(--color-surface-translucent-low);
   }
 
   html,
@@ -277,5 +280,45 @@
     -moz-osx-font-smoothing: grayscale;
     background: var(--color-surface-base);
     color: var(--color-neutral-strong);
+  }
+
+  /* Global scrollbars: 6px, theme track/thumb, rounded, hover, min-height */
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    background: var(--color-surface-translucent-low);
+    border-radius: 3px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--color-stroke-neutral-translucent-subdued);
+    border-radius: 3px;
+    min-height: 40px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--color-stroke-neutral-translucent-moderate);
+  }
+
+  /* Analyse drawer loader (40px, no background, primary colour) */
+  .analyse-loader {
+    width: 40px;
+    aspect-ratio: 1;
+    border: 8px solid transparent;
+    box-sizing: border-box;
+    background:
+      radial-gradient(farthest-side, var(--color-primary-moderate) 98%, transparent) 0    0/10px 10px,
+      radial-gradient(farthest-side, var(--color-primary-moderate) 98%, transparent) 100% 0/10px 10px,
+      radial-gradient(farthest-side, var(--color-primary-moderate) 98%, transparent) 100% 100%/10px 10px,
+      radial-gradient(farthest-side, var(--color-primary-moderate) 98%, transparent) 0 100%/10px 10px,
+      linear-gradient(var(--color-primary-moderate) 0 0) 50%/20px 20px,
+      transparent;
+    background-repeat: no-repeat;
+    filter: blur(0px);
+    animation: analyse-l12 0.8s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes analyse-l12 {
+    100% { background-position: 100% 0, 100% 100%, 0 100%, 0 0, center; }
   }
 }

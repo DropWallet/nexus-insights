@@ -51,7 +51,7 @@ export function TagFrequencyChart({ tagCounts, themes }: TagFrequencyChartProps)
           id="theme-filter"
           value={themeId ?? ''}
           onChange={(e) => setThemeId(e.target.value === '' ? null : e.target.value)}
-          className="rounded-base border border-stroke-neutral-translucent-subdued bg-surface-low px-3 py-2 text-body-sm text-neutral-strong focus:outline-none focus:ring-2 focus:ring-primary-moderate"
+          className="rounded-base border border-stroke-neutral-translucent-subdued bg-surface-low px-3 py-2 text-body-sm text-neutral-strong focus:outline-none focus:ring-2 focus:ring-focus-subdued focus:ring-offset-2 focus:ring-offset-surface-base"
         >
           <option value="">All themes</option>
           {themes.map((t) => (
