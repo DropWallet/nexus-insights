@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSessionCookieName } from '@/lib/session'
 
 export async function POST(request: NextRequest) {
-  const res = NextResponse.redirect(new URL('/auth', request.url))
+  const res = NextResponse.redirect(new URL('/auth', request.url), 303)
   res.cookies.set(getSessionCookieName(), '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
