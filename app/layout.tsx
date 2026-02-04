@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { ThemeProvider } from '@/lib/theme/provider'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { AddFeedbackDrawerProvider } from '@/lib/add-feedback-drawer-context'
 import { AppNav } from '@/components/AppNav'
 import { AddFeedbackDrawer } from '@/components/AddFeedbackDrawer'
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="en" data-theme="dark">
       <body>
         <ThemeProvider>
+          <TooltipProvider>
           <AddFeedbackDrawerProvider>
             <AppNav />
             <main className="pt-16">{children}</main>
@@ -29,6 +31,7 @@ export default function RootLayout({
               <SyncDrawerFromUrl />
             </Suspense>
           </AddFeedbackDrawerProvider>
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -13,6 +13,9 @@ const INSIGHTS_SELECT = `
   theme_id,
   suggested_theme_id,
   created_at,
+  mod_author_url,
+  mod_author_name,
+  mod_author_avatar_url,
   themes!insights_theme_id_fkey( name ),
   suggested_theme:themes!insights_suggested_theme_id_fkey( name ),
   insight_tags ( tag_id, tags ( id, name, color_code ) )

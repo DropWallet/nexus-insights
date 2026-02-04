@@ -21,11 +21,19 @@ import {
   SheetTitle,
   SheetClose,
 } from '@/components/ui/sheet'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { Button } from '@/components/Button'
 import { TagChip, TagChipWithRemove } from '@/components/TagChip'
 import { FilterTag } from '@/components/FilterTag'
+import { RelativeTime } from '@/components/RelativeTime'
 import { cn } from '@/lib/utils'
 import type { Theme, Insight, Tag } from '@/lib/types'
+import { FaReddit, FaDiscord, FaSlack } from 'react-icons/fa'
+import { FiLink, FiMoreHorizontal, FiUser } from 'react-icons/fi'
 
 function CloseIcon({ className }: { className?: string }) {
   return (
@@ -55,12 +63,23 @@ const INSIGHTS_SELECT = `
   theme_id,
   suggested_theme_id,
   created_at,
+  mod_author_url,
+  mod_author_name,
+  mod_author_avatar_url,
   themes!insights_theme_id_fkey( name ),
   suggested_theme:themes!insights_suggested_theme_id_fkey( name ),
   insight_tags ( tag_id, tags ( id, name, color_code ) )
 `
 
 const STOP_WORDS = new Set(['a', 'an', 'the', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'to', 'of', 'and', 'in', 'that', 'for', 'on', 'with', 'as', 'it', 'by', 'at', 'this', 'from'])
+
+const SOURCE_TYPE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  reddit: FaReddit,
+  discord: FaDiscord,
+  interview: FiUser,
+  slack: FaSlack,
+  other: FiMoreHorizontal,
+}
 
 function suggestTagFromContent(content: string): string {
   if (!content || typeof content !== 'string') return ''
@@ -419,6 +438,35 @@ export default function BoardPage() {
                       )}
                     </div>
                   )}
+                  {(selectedInsight.mod_author_url || selectedInsight.mod_author_name) && (
+                    <div className="mb-4 flex items-center gap-3">
+                      {selectedInsight.mod_author_avatar_url && (
+                        <a
+                          href={selectedInsight.mod_author_url ?? '#'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-shrink-0 rounded-full overflow-hidden w-10 h-10 bg-surface-mid"
+                        >
+                          <img
+                            src={selectedInsight.mod_author_avatar_url}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        </a>
+                      )}
+                      <div className="min-w-0">
+                        <span className="text-body-sm text-neutral-subdued block">Mod author</span>
+                        <a
+                          href={selectedInsight.mod_author_url ?? '#'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-body-sm font-medium text-primary-subdued hover:text-primary-strong hover:underline truncate block"
+                        >
+                          {selectedInsight.mod_author_name || 'Profile'}
+                        </a>
+                      </div>
+                    </div>
+                  )}
                   <Typography variant="title-xs" className="mb-2 text-neutral-moderate">
                     Tags
                   </Typography>
@@ -597,7 +645,7 @@ export default function BoardPage() {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               className={cn(
-                                'relative rounded-lg border p-3 bg-surface-mid border-stroke-neutral-translucent-weak hover:border-stroke-neutral-translucent-moderate',
+                                'relative rounded-lg border p-2 bg-surface-mid border-stroke-neutral-translucent-weak hover:border-stroke-neutral-translucent-moderate',
                                 snapshot.isDragging && 'opacity-90 shadow-lg'
                               )}
                             >
@@ -616,16 +664,91 @@ export default function BoardPage() {
                                     Suggested: {insight.suggested_theme.name}
                                   </span>
                                 )}
-                                <div className="flex flex-wrap gap-1">
-                                  {(insight.insight_tags ?? []).map((it) =>
-                                    it.tags ? (
-                                      <TagChip
-                                        key={it.tags.id}
-                                        tag={it.tags}
-                                        onClick={() => toggleTagFilter(it.tags!.id)}
+                                <div className="flex justify-between items-end gap-2 mt-1">
+                                  <div className="min-w-0 flex-1">
+                                    <div className="flex flex-wrap gap-1">
+                                      {(insight.insight_tags ?? []).map((it) =>
+                                        it.tags ? (
+                                          <TagChip
+                                            key={it.tags.id}
+                                            tag={it.tags}
+                                            onClick={() => toggleTagFilter(it.tags!.id)}
+                                          />
+                                        ) : null
+                                      )}
+                                    </div>
+                                    {insight.created_at && (
+                                      <RelativeTime
+                                        date={insight.created_at}
+                                        className="text-body-sm text-neutral-subdued mt-2 block"
                                       />
-                                    ) : null
-                                  )}
+                                    )}
+                                  </div>
+                                  <div className="flex flex-shrink-0 items-center gap-1.5">
+                                    {insight.mod_author_avatar_url && (
+                                      <Tooltip>
+                                        <TooltipTrigger asChild>
+                                          <a
+                                            href={insight.mod_author_url ?? '#'}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="relative group w-[14px] h-[14px] rounded-full overflow-hidden bg-surface-low flex items-center justify-center"
+                                            aria-label={insight.mod_author_name ?? 'Mod author profile'}
+                                          >
+                                            <img
+                                              src={insight.mod_author_avatar_url}
+                                              alt=""
+                                              className="w-full h-full object-cover"
+                                            />
+                                            <span
+                                              className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-40 pointer-events-none transition-opacity"
+                                              aria-hidden
+                                            />
+                                          </a>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                          View {insight.mod_author_name ?? 'user'}
+                                        </TooltipContent>
+                                      </Tooltip>
+                                    )}
+                                    {insight.source_type && !(insight.source_type === 'interview' && (insight.mod_author_avatar_url ?? insight.mod_author_url ?? insight.mod_author_name)) && (() => {
+                                      const Icon = SOURCE_TYPE_ICONS[insight.source_type] ?? FiMoreHorizontal
+                                      const label = insight.source_type.charAt(0).toUpperCase() + insight.source_type.slice(1)
+                                      return (
+                                        <Tooltip>
+                                          <TooltipTrigger asChild>
+                                            <span
+                                              className="w-[14px] h-[14px] flex items-center justify-center text-neutral-subdued"
+                                              aria-label={`Insight from ${label}`}
+                                            >
+                                              <Icon className="w-[14px] h-[14px]" />
+                                            </span>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                            Insight from {label}
+                                          </TooltipContent>
+                                        </Tooltip>
+                                      )
+                                    })()}
+                                    {insight.source_url && (
+                                      <Tooltip>
+                                        <TooltipTrigger asChild>
+                                          <a
+                                            href={insight.source_url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="w-[14px] h-[14px] flex items-center justify-center text-neutral-subdued hover:text-primary-moderate"
+                                            aria-label="View feedback source"
+                                          >
+                                            <FiLink className="w-[14px] h-[14px]" />
+                                          </a>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                          View feedback source
+                                        </TooltipContent>
+                                      </Tooltip>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
                             </div>
