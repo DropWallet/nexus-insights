@@ -29,6 +29,7 @@ export function AddFeedbackDrawer() {
   const [text, setText] = useState('')
   const [sourceUrl, setSourceUrl] = useState('')
   const [sourceType, setSourceType] = useState<string>('')
+  const [modAuthorUrl, setModAuthorUrl] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [count, setCount] = useState(0)
   const [errorMessage, setErrorMessage] = useState('')
@@ -46,6 +47,7 @@ export function AddFeedbackDrawer() {
           text: text.trim(),
           sourceUrl: sourceUrl.trim() || undefined,
           sourceType: sourceType && sourceType !== '' ? sourceType : undefined,
+          modAuthorUrl: modAuthorUrl.trim() || undefined,
         }),
       })
       const data = await res.json()
@@ -59,6 +61,7 @@ export function AddFeedbackDrawer() {
       setText('')
       setSourceUrl('')
       setSourceType('')
+      setModAuthorUrl('')
       if (typeof window !== 'undefined' && (data.count ?? 0) > 0) {
         window.dispatchEvent(new CustomEvent('insights-updated'))
       }
@@ -129,6 +132,20 @@ export function AddFeedbackDrawer() {
                   </option>
                 ))}
               </select>
+            </div>
+            <div>
+              <label htmlFor="drawer-modAuthorUrl" className="block text-body-sm font-medium text-neutral-moderate mb-1">
+                Mod author (Nexus profile URL, optional)
+              </label>
+              <input
+                id="drawer-modAuthorUrl"
+                type="url"
+                value={modAuthorUrl}
+                onChange={(e) => setModAuthorUrl(e.target.value)}
+                placeholder="https://www.nexusmods.com/profile/username"
+                className="w-full px-4 py-2 rounded-lg bg-surface-low border border-stroke-neutral-translucent-subdued text-neutral-strong placeholder-neutral-weak text-body-md focus:outline-none focus:ring-2 focus:ring-focus-subdued focus:ring-offset-2 focus:ring-offset-surface-base"
+                disabled={status === 'loading'}
+              />
             </div>
             {status === 'loading' ? (
               <AnalyseLoadingRow />

@@ -26,4 +26,7 @@ export type Insight = {
   themes: { name: string } | null
   suggested_theme: { name: string } | null
   insight_tags: InsightTagRow[]
+  mod_author_url: string | null
+  mod_author_name: string | null
+  mod_author_avatar_url: string | null
 }

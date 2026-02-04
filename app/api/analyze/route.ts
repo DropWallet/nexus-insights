@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { loadContextBank } from '@/lib/context'
+import { resolveModAuthorFromUrl } from '@/lib/nexus-user'
 
 const THEME_NAMES = [
   'Uncategorised',
@@ -17,6 +18,7 @@ export type AnalyzeBody = {
   text: string
   sourceUrl?: string
   sourceType?: 'reddit' | 'discord' | 'interview' | 'slack' | 'other'
+  modAuthorUrl?: string
 }
 
 export type ExtractedInsight = {
@@ -76,7 +78,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = (await request.json()) as AnalyzeBody
-    const { text, sourceUrl, sourceType } = body
+    const { text, sourceUrl, sourceType, modAuthorUrl } = body
     if (!text || typeof text !== 'string') {
       return NextResponse.json(
         { error: 'Request body must include "text" (string)' },
@@ -158,6 +160,11 @@ export async function POST(request: NextRequest) {
     const tagByName = new Map((tagsRes.data ?? []).map((t) => [t.name, t.id]))
     const insertedIds: string[] = []
 
+    let modAuthor: Awaited<ReturnType<typeof resolveModAuthorFromUrl>> = null
+    if (modAuthorUrl?.trim()) {
+      modAuthor = await resolveModAuthorFromUrl(modAuthorUrl.trim())
+    }
+
     for (const item of extracted) {
       const suggestedThemeId = themeByName.get(item.suggested_theme) ?? null
       const { data: insight, error: insightError } = await supabase
@@ -168,6 +175,11 @@ export async function POST(request: NextRequest) {
           source_type: sourceType ?? null,
           theme_id: uncategorised.id,
           suggested_theme_id: suggestedThemeId,
+          ...(modAuthor && {
+            mod_author_url: modAuthor.mod_author_url,
+            mod_author_name: modAuthor.mod_author_name,
+            mod_author_avatar_url: modAuthor.mod_author_avatar_url,
+          }),
         })
         .select('id')
         .single()
